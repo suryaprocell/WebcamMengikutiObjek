@@ -9,3 +9,4 @@ Webcam Logitech<br>
 2. Upload WebcamMengikutiObject.ino to arduino uno board
 3. run build_all.sh to compile WebcamMengikutiObject.cpp
 
+Video : <a href="https://www.youtube.com/watch?v=Yuc5s0ApZUo">https://www.youtube.com/watch?v=Yuc5s0ApZUo</a>
