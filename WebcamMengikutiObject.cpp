@@ -91,8 +91,8 @@ int main( int argc, char** argv ){
 		centerY = FRAME_HEIGHT/2;
 		
 		//create cross line
-		line(imgOriginal,Point(centerX,0),Point(centerX, FRAME_HEIGHT),Scalar(0,255,0),1);
-		line(imgOriginal,Point(0,centerY),Point(FRAME_WIDTH, centerY),Scalar(0,255,0),1);
+		line(imgOriginal,Point(centerX, centerY-20), Point(centerX, centerY+20), Scalar(0,255,0), 1.5);
+		line(imgOriginal,Point(centerX-20, centerY), Point(centerX+20, centerY), Scalar(0,255,0), 1.5);
  
 		//Threshold the image
 		Mat imgThresholded;
@@ -127,9 +127,17 @@ int main( int argc, char** argv ){
 				if(area>MIN_OBJECT_AREA){ //jika area kontur lebih besar dari minimum area object maka gambar lingkaran dan tulis koordinat
 					double x = moment.m10/area;
 					double y = moment.m01/area;
+					double r = sqrt(area/3.14); //jari2 lingkaran
 					
-					//gambar lingkaran mengikuti objek dilayar
-					circle(imgOriginal,Point(x,y),1,Scalar(0,255,0),2);
+					//gambar lingkaran luar mengikuti objek
+					circle(imgOriginal, Point(x,y), r, Scalar(0,0,255), 1.5, 8);
+
+					//gambar cross line di tengah lingkaran
+					line(imgOriginal, Point(x,y-r-5), Point(x,y+r+5), Scalar(0,0,255), 1.5, 8);
+					line(imgOriginal, Point(x-r-5,y), Point(x+r+5,y), Scalar(0,0,255), 1.5, 8);
+
+					//gambar lingkaran tengah mengikuti objek				
+					//circle(imgOriginal,Point(x,y),1,Scalar(0,0,255),2);
 
 					//tulis koordinat mengikuti objek dilayar
 					putText(imgOriginal, intToString(x) + "," + intToString(y), Point(x,y+10), FONT_HERSHEY_COMPLEX, 0.25, Scalar(0, 255, 0), 0.3, 8);
