@@ -1,5 +1,5 @@
 # WebcamMengikutiObjek
-OS Linux Ubuntu<br>
+OS Linux Mint<br>
 Opencv 2.4.9<br>
 Arduino Uno<br>
 TowerPro MicroServo 9g<br>
