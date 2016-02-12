@@ -27,6 +27,8 @@ int iHighV = 255;
 
 int centerX, centerY;
 
+int Modefilter = 1;
+
 string intToString(int number){
 
 
@@ -143,14 +145,33 @@ int main( int argc, char** argv ){
 					putText(imgOriginal, intToString(x) + "," + intToString(y), Point(x,y+10), FONT_HERSHEY_COMPLEX, 0.25, Scalar(0, 255, 0), 0.3, 8);
 					
 					// kirim koordinat x,y ke arduino
-					if (serial != 0) {
-						
-      						fprintf(serial, "x%f\n", x);
-						printf("SEND x%f\n", x);
+					if (serial != 0){
 
-      						fprintf(serial, "y%f\n", y);
-						printf("SEND y%f\n", y);
-    					}	
+						if(waitKey(5) == 97) {//menunggu tombol a ditekan, jika a di tekan ganti mode filter 0
+							Modefilter = 0;
+						}
+
+						if(waitKey(5) == 98) {//menunggu tombol b ditekan, jika b di tekan ganti mode filter 1
+							Modefilter = 1;
+						}
+
+						if(Modefilter==1){
+						
+      							fprintf(serial, "x%d\n", centerX);
+							printf("SEND x%d\n", centerX);
+
+      							fprintf(serial, "y%d\n", centerY);
+							printf("SEND y%d\n", centerY);
+    					
+						}else{
+						
+      							fprintf(serial, "x%f\n", x);
+							printf("SEND x%f\n", x);
+
+      							fprintf(serial, "y%f\n", y);
+							printf("SEND y%f\n", y);
+    						}
+					}	
 				}//end if
 			}//end for
 		}//end if
@@ -167,12 +188,10 @@ int main( int argc, char** argv ){
 		resize(imgOriginal, dstimgOriginal, Size(), 2, 2, INTER_CUBIC);
   		imshow("Original", dstimgOriginal);
 
-        	if (waitKey(30) == 27) {//wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
+        	if (waitKey(5) == 27) {//wait for 'esc' key press for 30ms. If 'esc' key is pressed, break loop
             		cout << "esc key is pressed by user" << endl;
             		break; 
        		}
-		
-		//waitKey(1);
 		
     	} //end while
 	
