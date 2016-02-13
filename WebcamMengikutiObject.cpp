@@ -91,6 +91,10 @@ int main( int argc, char** argv ){
 		//find center point
 		centerX = FRAME_WIDTH/2;
 		centerY = FRAME_HEIGHT/2;
+
+		putText(imgOriginal, "Tekan", Point(5,10), FONT_HERSHEY_COMPLEX, 0.35, Scalar(0, 255, 0), 0.25, 8);
+		putText(imgOriginal, "a : Mulai Mengikuti Objek", Point(5,20), FONT_HERSHEY_COMPLEX, 0.35, Scalar(0, 255, 0), 0.25, 8);
+		putText(imgOriginal, "b : Berhenti Mengikuti Objek", Point(5,30), FONT_HERSHEY_COMPLEX, 0.35, Scalar(0, 255, 0), 0.25, 8);
 		
 		//create cross line
 		line(imgOriginal,Point(centerX, centerY-20), Point(centerX, centerY+20), Scalar(0,255,0), 1.5);
