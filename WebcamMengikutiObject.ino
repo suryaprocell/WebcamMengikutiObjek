@@ -1,14 +1,15 @@
 #include <Servo.h>
 #include <PID.h>
  
-Servo myservo1;
-Servo myservo2;
+Servo myservoX;
+Servo myservoY;
 
 int servoMax = 2400;
 int servoMin = 544;
+int servoCenterposX,servoCenterposY;
 
-PID myPID1(0.25, 0, 0); // KP, KI, KD
-PID myPID2(0.25, 0, 0); // KP, KI, KD
+PID myPIDX(0, 0.1, 0); // KP, KI, KD
+PID myPIDY(0, 0.1, 0); // KP, KI, KD
 
 int Xaxis, Yaxis;
 double pwmX, pwmY, setpointX,setpointY;
@@ -19,14 +20,19 @@ char karakter;
 void setup() 
 { 
   Serial.begin(9600);
-  myservo1.attach(7);
-  myservo2.attach(8);
-  myservo1.write(90);
-  myservo2.write(90);
-  myPID1.LimitP(500,-500); //Pmax , Pmin
-  myPID1.LimitI(100,-100); //Imax , Imin
-  myPID2.LimitP(500,-500); //Pmax , Pmin
-  myPID2.LimitI(100,-100); //Imax , Imin
+  
+  myservoX.attach(7);
+  myservoY.attach(8);
+  myservoX.write(90);
+  myservoY.write(90);
+  delay(1000);
+  servoCenterposX = myservoX.readMicroseconds();
+  servoCenterposY = myservoY.readMicroseconds();
+  
+  myPIDX.LimitP(0,0); //Pmax , Pmin
+  myPIDX.LimitI(1000,-1000); //Imax , Imin
+  myPIDY.LimitP(0,0); //Pmax , Pmin
+  myPIDY.LimitI(1000,-1000); //Imax , Imin
   setpointX = 160;
   setpointY = 120;
 } 
@@ -58,7 +64,7 @@ void cek_serial(){
 void prosesX(){
   
 
-  pwmX = myservo1.readMicroseconds() + myPID1.Calculate(setpointX, Xaxis);
+  pwmX = servoCenterposX + myPIDX.Calculate(setpointX, Xaxis);
   if(pwmX>servoMax)
   {
     pwmX = servoMax;
@@ -67,13 +73,13 @@ void prosesX(){
   {
     pwmX = servoMin;
   }
-  myservo1.writeMicroseconds(pwmX);
+  myservoX.writeMicroseconds(pwmX);
   
 }
 
 void prosesY(){
 
-  pwmY = myservo2.readMicroseconds() - myPID2.Calculate(setpointY, Yaxis);
+  pwmY = servoCenterposY - myPIDY.Calculate(setpointY, Yaxis);
   if(pwmY>servoMax)
   {
     pwmY = servoMax;
@@ -82,5 +88,5 @@ void prosesY(){
   {
     pwmY = servoMin;
   }
-  myservo2.writeMicroseconds(pwmY);
+  myservoY.writeMicroseconds(pwmY);
 }
