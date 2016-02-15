@@ -8,8 +8,8 @@ int servoMax = 2400;
 int servoMin = 544;
 int servoCenterposX,servoCenterposY;
 
-PID myPIDX(0, 0.1, 0); // KP, KI, KD
-PID myPIDY(0, 0.1, 0); // KP, KI, KD
+PID myPIDX(0, 0.2, 0); // KP, KI, KD
+PID myPIDY(0, 0.2, 0); // KP, KI, KD
 
 int Xaxis, Yaxis;
 double pwmX, pwmY, setpointX,setpointY;
